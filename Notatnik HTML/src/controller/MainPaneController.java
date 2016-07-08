@@ -48,37 +48,44 @@ public class MainPaneController implements Initializable{
     private FileController fileController;
 
 	@FXML
-	public void Nowy() throws IOException{
-		String nowy = ZamknijOkno();
-		if(nowy == "Zapisz"){
-			Zapisz();
-			HTMLEditor.setHtmlText("");
-		}
-		else if(nowy == "Nie zapisuj"){
-			HTMLEditor.setHtmlText("");
-		}
-		else if(nowy == "Anuluj"){
+	public void nowy() throws IOException{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Notatnik HTML");
+		alert.setHeaderText("Czy chcesz zapisac plik?");
 
+		ButtonType buttonTypeOne = new ButtonType("Zapisz");
+		ButtonType buttonTypeTwo = new ButtonType("Nie zapisuj");
+		ButtonType buttonTypeCancel = new ButtonType("Anuluj", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne){
+			zapisz();
+			HTMLEditor.setHtmlText("");
+		} else if (result.get() == buttonTypeTwo) {
+			HTMLEditor.setHtmlText("");
 		}
 	}
+
 	@FXML
-	public void Otworz() throws IOException{
+	public void otworz() throws IOException{
 		HTMLEditor.setHtmlText(fileController.otworz());
 	}
 	@FXML
-	public void Zapisz() throws IOException{
+	public void zapisz() throws IOException{
 		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
 	@FXML
-	public void ZapiszJako() throws IOException{
+	public void zapiszJako() throws IOException{
 		fileController.setFile(null);
 		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
 	@FXML
-	public void Zakoncz() throws IOException{
-		String zakoncz = ZamknijOkno();
+	public void zakoncz() throws IOException{
+		String zakoncz = zamknijOkno();
 		if(zakoncz == "Zapisz"){
-			Zapisz();
+			zapisz();
 			Platform.exit();
 		}
 		else if(zakoncz == "Nie zapisuj"){
@@ -90,7 +97,7 @@ public class MainPaneController implements Initializable{
 	}
 
 	@FXML
-	public void OProgramie() throws IOException{
+	public void oProgramie() throws IOException{
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("O programie");
 		alert.setHeaderText("Notatnik HTML");
@@ -98,7 +105,7 @@ public class MainPaneController implements Initializable{
 		alert.showAndWait();
 	}
 
-	public String ZamknijOkno() throws IOException{
+	public String zamknijOkno() throws IOException{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Notatnik HTML");
 		alert.setHeaderText("Czy chcesz zapisac plik?");
