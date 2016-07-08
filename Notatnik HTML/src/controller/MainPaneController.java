@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -11,10 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -22,10 +15,8 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.web.HTMLEditor;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-public class MainPaneController {
+public class MainPaneController implements Initializable{
 
     @FXML
     private MenuItem Zakoncz;
@@ -54,7 +45,7 @@ public class MainPaneController {
     @FXML
     private Button ZapiszButton;
 
-    private File file = null;
+    private FileController fileController;
 
 	@FXML
 	public void Nowy() throws IOException{
@@ -72,37 +63,16 @@ public class MainPaneController {
 	}
 	@FXML
 	public void Otworz() throws IOException{
-		FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Pliki HTML (*.html)", "*.html");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        //Show save file dialog
-        file = fileChooser.showOpenDialog(new Stage());
-        if(file != null){
-            HTMLEditor.setHtmlText(otworzPlik(file));
-        }
+		HTMLEditor.setHtmlText(fileController.otworz());
 	}
 	@FXML
 	public void Zapisz() throws IOException{
-		if(file == null){
-			ZapiszJako();
-		}
-		else{
-			zapiszPlik(HTMLEditor.getHtmlText(), file);
-		}
+		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
 	@FXML
 	public void ZapiszJako() throws IOException{
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Pliki .html (*.html)", "*.html");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setTitle("Zapisz plik");
-        file = fileChooser.showSaveDialog(new Stage());
-        if (file != null) {
-        	zapiszPlik(HTMLEditor.getHtmlText(), file);
-        }
-
+		fileController.setFile(null);
+		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
 	@FXML
 	public void Zakoncz() throws IOException{
@@ -127,25 +97,7 @@ public class MainPaneController {
 		alert.setContentText("Notatnik HTML to prosty edytor strony HTML \nAutor: Jêdrzej Ostrowski");
 		alert.showAndWait();
 	}
-	private String otworzPlik(File file) throws IOException{
-        StringBuilder stringBuffer = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
-            String text;
-            while ((text = bufferedReader.readLine()) != null) {
-                stringBuffer.append(text);
-            }
-
-        return stringBuffer.toString();
-    }
-
-	private void zapiszPlik(String content, File file) throws IOException{
-        FileWriter fileWriter = null;
-        fileWriter = new FileWriter(file);
-        fileWriter.write(content);
-        fileWriter.close();
-
-	}
 	public String ZamknijOkno() throws IOException{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Notatnik HTML");
@@ -162,6 +114,10 @@ public class MainPaneController {
 		} else if (result.get() == buttonTypeTwo) {
 		}
 		return result.get().getText();
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		fileController = new FileController();
 	}
 
 }
