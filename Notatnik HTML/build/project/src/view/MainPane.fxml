@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Plik">
+            <items>
+              <MenuItem fx:id="Nowy" mnemonicParsing="false" onAction="#Nowy" text="Nowy" />
+                  <MenuItem fx:id="Otworz" mnemonicParsing="false" onAction="#Otworz" text="Otwórz..." />
+                  <MenuItem fx:id="Zapisz" mnemonicParsing="false" onAction="#Zapisz" text="Zapisz" />
+                  <MenuItem fx:id="ZapiszJako" mnemonicParsing="false" onAction="#ZapiszJako" text="Zapisz jako..." />
+                  <MenuItem fx:id="Zakoncz" mnemonicParsing="false" onAction="#Zakoncz" text="Zakończ" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Pomoc">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#OProgramie" text="O programie" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HTMLEditor fx:id="HTMLEditor" focusTraversable="false" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" prefHeight="392.0" prefWidth="600.0" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>
