@@ -25,7 +25,7 @@ import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Controller implements Initializable {
+public class MainPaneController {
 
     @FXML
     private MenuItem Zakoncz;
@@ -56,10 +56,6 @@ public class Controller implements Initializable {
 
     private File file = null;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-	}
 	@FXML
 	public void Nowy() throws IOException{
 		String nowy = ZamknijOkno();
@@ -125,12 +121,11 @@ public class Controller implements Initializable {
 
 	@FXML
 	public void OProgramie() throws IOException{
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/OProgramie.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root1));
-        stage.setTitle("Notatnik HTML");
-        stage.show();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("O programie");
+		alert.setHeaderText("Notatnik HTML");
+		alert.setContentText("Notatnik HTML to prosty edytor strony HTML \nAutor: Jêdrzej Ostrowski");
+		alert.showAndWait();
 	}
 	private String otworzPlik(File file) throws IOException{
         StringBuilder stringBuffer = new StringBuilder();
