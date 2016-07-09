@@ -6,8 +6,11 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -15,6 +18,8 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.web.HTMLEditor;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainPaneController implements Initializable{
 
@@ -46,6 +51,8 @@ public class MainPaneController implements Initializable{
     private Button ZapiszButton;
 
     private FileController fileController;
+
+    public static Stage primaryStage;
 
 	@FXML
 	public void nowy() throws IOException{
@@ -122,9 +129,10 @@ public class MainPaneController implements Initializable{
 		}
 		return result.get().getText();
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fileController = new FileController();
+		
 	}
-
 }
