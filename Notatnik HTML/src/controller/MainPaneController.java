@@ -10,48 +10,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.web.HTMLEditor;
-import javafx.stage.Stage;
 
 public class MainPaneController implements Initializable{
+
+	@FXML
+    private MenuItem Nowy;
+
+	@FXML
+    private MenuItem Otworz;
+
+	@FXML
+    private MenuItem Zapisz;
+
+	@FXML
+    private MenuItem ZapiszJako;
 
     @FXML
     private MenuItem Zakoncz;
 
     @FXML
-    private MenuItem Nowy;
-
-    @FXML
-    private MenuItem Zapisz;
-
-    @FXML
     private HTMLEditor HTMLEditor;
-
-    @FXML
-    private MenuItem ZapiszJako;
-
-    @FXML
-    private MenuItem Otworz;
-
-    @FXML
-    private Button NieZapisujButton;
-
-    @FXML
-    private Button AnulujButton;
-
-    @FXML
-    private Button ZapiszButton;
 
     private FileController fileController;
 
-    public static Stage primaryStage;
-
 	@FXML
-	public void nowy() throws IOException{
+	public void nowy() throws IOException{ // Wyœwietla alert pytaj¹cy czy zapisaæ zawartoœæ edytora przed wyczyszczeniem
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Notatnik HTML");
 		alert.setHeaderText("Czy chcesz zapisac plik?");
@@ -73,19 +60,25 @@ public class MainPaneController implements Initializable{
 
 	@FXML
 	public void otworz() throws IOException{
+		// Wywo³uje metodê klasy FileController, która pobiera z pliku zawartoœæ tekstow¹ i zwraca j¹
 		HTMLEditor.setHtmlText(fileController.otworz());
 	}
+
 	@FXML
 	public void zapisz() throws IOException{
+		// Wywo³uje metodê klasy FileController, która zapisuje do pliku tekst z argumentu
 		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
+
 	@FXML
 	public void zapiszJako() throws IOException{
-		fileController.setFile(null);
+		// Wywo³uje metodê klasy FileController, która zapisuje do pliku tekst z argumentu
+		fileController.setFile(null); // Ustawia pole File na null, dziêki temu przy zapisywaniu zostaje wywo³any FileChooser
 		fileController.zapisz(HTMLEditor.getHtmlText());
 	}
+
 	@FXML
-	public void zakoncz() throws IOException{
+	public void zakoncz() throws IOException{ //Wyœwietla alert pytaj¹cy czy zapisaæ plik przed zamkniêciem
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Notatnik HTML");
 		alert.setHeaderText("Czy chcesz zapisac plik przed zamkniêciem?");
@@ -106,7 +99,7 @@ public class MainPaneController implements Initializable{
 	}
 
 	@FXML
-	public void oProgramie() throws IOException{
+	public void oProgramie() throws IOException{ // Wyœwietla nowe okno z informacj¹ o programie
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("O programie");
 		alert.setHeaderText("Notatnik HTML");
@@ -114,9 +107,8 @@ public class MainPaneController implements Initializable{
 		alert.showAndWait();
 	}
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		fileController = new FileController();
+		fileController = new FileController(); // Przy inicjalizacji okna tworzony jest obiekt klasy s³u¿¹cej do otwierania i zapisu plików
 	}
 }

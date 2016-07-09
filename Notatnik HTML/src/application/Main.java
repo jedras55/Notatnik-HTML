@@ -23,7 +23,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Notatnik HTML");
 		primaryStage.show();
 
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() { // Event który pyta czy na pewno zamkn¹æ okno - wywo³ywany przy zamkniêciu aplikacji krzy¿ykiem
 			@Override
 			public void handle(WindowEvent event) {
 				event.consume();
