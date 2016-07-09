@@ -6,11 +6,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -19,7 +16,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class MainPaneController implements Initializable{
 
@@ -60,17 +56,17 @@ public class MainPaneController implements Initializable{
 		alert.setTitle("Notatnik HTML");
 		alert.setHeaderText("Czy chcesz zapisac plik?");
 
-		ButtonType buttonTypeOne = new ButtonType("Zapisz");
-		ButtonType buttonTypeTwo = new ButtonType("Nie zapisuj");
+		ButtonType buttonTypeZapisz = new ButtonType("Zapisz");
+		ButtonType buttonTypeNieZapisuj = new ButtonType("Nie zapisuj");
 		ButtonType buttonTypeCancel = new ButtonType("Anuluj", ButtonData.CANCEL_CLOSE);
 
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+		alert.getButtonTypes().setAll(buttonTypeZapisz, buttonTypeNieZapisuj, buttonTypeCancel);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne){
+		if (result.get() == buttonTypeZapisz){
 			zapisz();
 			HTMLEditor.setHtmlText("");
-		} else if (result.get() == buttonTypeTwo) {
+		} else if (result.get() == buttonTypeNieZapisuj) {
 			HTMLEditor.setHtmlText("");
 		}
 	}
@@ -90,16 +86,22 @@ public class MainPaneController implements Initializable{
 	}
 	@FXML
 	public void zakoncz() throws IOException{
-		String zakoncz = zamknijOkno();
-		if(zakoncz == "Zapisz"){
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Notatnik HTML");
+		alert.setHeaderText("Czy chcesz zapisac plik przed zamkniêciem?");
+
+		ButtonType buttonTypeZapisz = new ButtonType("Zapisz");
+		ButtonType buttonTypeNieZapisuj = new ButtonType("Nie zapisuj");
+		ButtonType buttonTypeCancel = new ButtonType("Anuluj", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(buttonTypeZapisz, buttonTypeNieZapisuj, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeZapisz){
 			zapisz();
 			Platform.exit();
-		}
-		else if(zakoncz == "Nie zapisuj"){
+		} else if (result.get() == buttonTypeNieZapisuj) {
 			Platform.exit();
-		}
-		else if(zakoncz == "Anuluj"){
-
 		}
 	}
 
@@ -112,27 +114,9 @@ public class MainPaneController implements Initializable{
 		alert.showAndWait();
 	}
 
-	public String zamknijOkno() throws IOException{
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Notatnik HTML");
-		alert.setHeaderText("Czy chcesz zapisac plik?");
-
-		ButtonType buttonTypeOne = new ButtonType("Zapisz");
-		ButtonType buttonTypeTwo = new ButtonType("Nie zapisuj");
-		ButtonType buttonTypeCancel = new ButtonType("Anuluj", ButtonData.CANCEL_CLOSE);
-
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne){
-		} else if (result.get() == buttonTypeTwo) {
-		}
-		return result.get().getText();
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fileController = new FileController();
-		
 	}
 }
